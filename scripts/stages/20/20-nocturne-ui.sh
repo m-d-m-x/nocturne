@@ -6,7 +6,11 @@ mv static-web-server "$ROOTFS_PATH"/usr/bin/static-web-server
 chmod +x "$ROOTFS_PATH"/usr/bin/static-web-server
 cp -a "$SCRIPTS_PATH"/services/nocturne-ui "$ROOTFS_PATH"/etc/sv/
 
-curl -Lo "$WORK_PATH"/nocturne-ui.zip https://nightly.link/usenocturne/nocturne-ui/workflows/build/"$NOCTURNE_UI_TAG"/nocturne-ui.zip
+if [ -f "$SAVED_PWD/local/nocturne-ui.zip" ]; then
+  cp "$SAVED_PWD/local/nocturne-ui.zip" "$WORK_PATH/nocturne-ui.zip"
+else
+  curl -Lo "$WORK_PATH"/nocturne-ui.zip https://nightly.link/usenocturne/nocturne-ui/workflows/build/"$NOCTURNE_UI_TAG"/nocturne-ui.zip
+fi
 mkdir -p "$ROOTFS_PATH"/etc/nocturne/ui
 unzip "$WORK_PATH"/nocturne-ui.zip -d "$ROOTFS_PATH"/etc/nocturne/ui
 
